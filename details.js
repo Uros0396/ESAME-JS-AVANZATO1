@@ -1,3 +1,5 @@
+import { startLoading, stopLoading } from "./loader.js";
+
 const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQwOWQ0OTRlMWE5MjAwMTU1Mjg0ZDkiLCJpYXQiOjE3MjQ5NDc3ODUsImV4cCI6MTcyNjE1NzM4NX0.fAEaYqkOo7gTE93CjIseypDCjmKEmCh2Z_9Ujn3MuaY'; 
 const url = 'https://striveschool-api.herokuapp.com/api/product/';
 const params = new URLSearchParams(window.location.search);
@@ -7,10 +9,11 @@ const cardDetail = (product) => {
     const listItem = document.createElement("li");
     listItem.classList.add("list-group-item");
     listItem.innerHTML = `
-        <div class="d-flex mt-5">
-            <img src="${product.imageUrl}" alt="${product.name} cover" class="w-25 h-25">
-            <div class="ms-3">
-                <p class="m-2"><strong>${product.description}</strong></p>
+        <div class="d-flex flex-column flex-md-row align-items-center my-auto">
+            <img src="${product.imageUrl}" alt="${product.name} cover" class="w-25 h-25 h-auto">
+            <div class="mt-3 mt-md-0 ms-md-3 text-center text-md-start">
+              <p class="m-2"><strong>${product.description}</strong></p>
+              <p class="mt-3 mt-md-5 m-2"><strong>Price:</strong> €${product.price?.toFixed(2)}</p>
              </div>
         </div>
     `;
@@ -19,13 +22,14 @@ const cardDetail = (product) => {
 
 function fetchProductDetails() {
   
-
+    startLoading();
     fetch(url + id, {
          headers : {
             "Content-Type": "application/JSON",
             "Authorization": `Bearer ${key}`
          }
     })
+    
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -44,7 +48,11 @@ function fetchProductDetails() {
         })
         .catch(error => {
             console.error("Errore nel recupero del libro:", error);
-        });
+        })
+        
+        .finally(() =>{
+            stopLoading();
+        })
 }
 
 window.onload = fetchProductDetails;

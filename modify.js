@@ -1,3 +1,5 @@
+import { startLoading, stopLoading } from "./loader.js";
+
 const url = 'https://striveschool-api.herokuapp.com/api/product/';
 const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQwOWQ0OTRlMWE5MjAwMTU1Mjg0ZDkiLCJpYXQiOjE3MjQ5NDc3ODUsImV4cCI6MTcyNjE1NzM4NX0.fAEaYqkOo7gTE93CjIseypDCjmKEmCh2Z_9Ujn3MuaY';
 
@@ -11,6 +13,7 @@ const productId = params.get('id');
 
 async function fillFormWithProductById() {
    if (productId) {
+    startLoading()
         try {
             const response = await fetch(url + productId, {
                 headers: {
@@ -30,10 +33,15 @@ async function fillFormWithProductById() {
             }
         } catch (error) {
             console.error("Error fetching product:", error);
+        } finally {  
+            stopLoading();
         }
+        
+        
     } else {
         alert("No product ID provided in the URL");
     }
+  
 }
 
 async function updateProduct(event) {
@@ -58,7 +66,7 @@ const updatedProduct = {
 
         if (response.ok) {
             alert("Product updated successfully!");
-            window.location.href = "index.html";
+            window.location.href = "backoffice.html";
         } else {
             const errorText = await response.text();
             console.error("Failed to update product:", errorText);

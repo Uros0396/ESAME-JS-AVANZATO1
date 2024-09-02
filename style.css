@@ -1,0 +1,38 @@
+.cart {
+    height: 30px;
+    width: 30px;
+}
+
+.opacity {
+    opacity: 0.5;
+}
+
+.carousel-inner img {
+    width: 100%; 
+    height: auto; 
+    object-fit: cover; 
+    object-position: center; 
+  }
+
+  .carousel-item {
+    min-height: 300px;
+  }
+
+  body {
+    background: rgb(243, 241, 241);
+  }
+
+  footer a {
+    text-decoration: none;
+    color: white;
+}
+
+.ciaos li a:hover {
+    font-weight: bold;
+    background-color: black !important;
+    color: white !important;
+}
+
+.borderContainer {
+  border: solid 1px, rgb(209, 206, 206);
+}
